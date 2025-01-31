@@ -24,9 +24,12 @@ export const currentToken = {
 };
 
 if (currentToken.access_token) {
-  // refresh
-  const token = await refreshToken();
-  currentToken.save(token);
+  async function refreshF () {
+    // refresh
+    const token = await refreshToken();
+    currentToken.save(token);
+  }
+  refreshF();
 }
 
 // On page load, try to fetch auth code from current browser search URL
@@ -35,8 +38,11 @@ const code = args.get('code');
 
 // If we find a code, we're in a callback, do a token exchange
 if (code) {
-  const token = await getToken(code);
-  currentToken.save(token);
+  async function getF () {
+    const token = await getToken(code);
+    currentToken.save(token);
+  }
+  getF();
 
   // Remove code from URL so we can refresh correctly.
   const url = new URL(window.location.href);

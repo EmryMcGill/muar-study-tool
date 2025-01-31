@@ -36,6 +36,7 @@ if (currentToken.access_token) {
 const args = new URLSearchParams(window.location.search);
 const code = args.get('code');
 
+/*
 // If we find a code, we're in a callback, do a token exchange
 if (code) {
   async function getF () {
@@ -51,6 +52,7 @@ if (code) {
   const updatedUrl = url.search ? url.href : url.href.replace('?', '');
   window.history.replaceState({}, document.title, updatedUrl);
 }
+  */
 
 // redirects user to spotify's auth page
 export async function redirectToSpotifyAuthorize() {

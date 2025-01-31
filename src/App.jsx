@@ -3,14 +3,14 @@ import './App.css'
 import { TbPlayerSkipForwardFilled } from "react-icons/tb";
 
 import { redirectToSpotifyAuthorize, currentToken, logout } from './spotify';
-import { getDevices, getTrack, shuffle, skip } from './spotifyAPI';
+import { getDevices, getTrack, shuffle, skip, getToken } from './spotifyAPI';
 
 function App() {
 
   const [device, setDevice] = useState({});
-  const [currentPlaylist, setCurrentPlaylist] = useState('');
   const [trackTitle, setTrackTitle] = useState('');
   const [trackComposer, setTrackComposer] = useState('');
+  const [token, setToken] = useState();
 
 
   const handleShowInfo = async () => {
@@ -21,8 +21,36 @@ function App() {
   }
 
   useEffect(() => {
+    // On page load, try to fetch auth code from current browser search URL
+    const args = new URLSearchParams(window.location.search);
+    const code = args.get('code');
+
+    // If we find a code, we're in a callback, do a token exchange
+    if (code) {
+      async function getF () {
+        const token = await getToken(code);
+        currentToken.save(token);
+        return token;
+      }
+      getF().then((t) => {
+        setToken(t);
+        getDevices().then(devices => {
+          console.log(devices.devices)
+          devices.devices.forEach(d => d.is_active ? setDevice(d) : '');
+        });
+      });
+
+      // Remove code from URL so we can refresh correctly.
+      const url = new URL(window.location.href);
+      url.searchParams.delete("code");
+
+      const updatedUrl = url.search ? url.href : url.href.replace('?', '');
+      window.history.replaceState({}, document.title, updatedUrl);
+    }
+
     if (currentToken.access_token) {
       // logged in
+      setToken(currentToken.access_token);
 
       // set devices
       getDevices().then(devices => {
@@ -70,7 +98,7 @@ function App() {
             <a href="mailto:emrymcgill@gmail.com">emrymcgill@gmail.com</a></li>
         </ul>
       </div>
-      {currentToken.access_token ?
+      {token ?
       <div className='content-container'>
         <div className='top-bar'>
           <div>

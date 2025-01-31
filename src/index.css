@@ -1,0 +1,63 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --blue: #35A6EF;
+  --blue-tint: #3299de;
+  --text-primary: black;
+  --bg-primary: #e6ebf0;
+  --bg-primary-tint: #d4d8dc;
+  --bg-secondary: white;
+  --error: tomato;
+  --font-size-base: 16px;
+  --spacing-base: 1rem;
+  --border-radius: 8px;
+  --transition-speed: 0.1s ease-in-out;
+}
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+button {
+  background-color:#1ed760;
+  color: black;
+  border: none;
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #1fdf64;
+}
+
+input[type="text"] {
+  font-size: 1rem;
+  padding: 0.5rem;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+h2, h3 {
+  width: 100%;
+}
